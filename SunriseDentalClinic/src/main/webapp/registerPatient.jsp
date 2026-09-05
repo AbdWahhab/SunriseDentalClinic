@@ -24,14 +24,12 @@
 <html>
 
 <head>
-
     <meta charset="UTF-8">
 
     <title>Register Patient - Sunrise Dental Clinic</title>
 
     <link rel="stylesheet"
           href="<%= request.getContextPath() %>/css/style.css">
-
 </head>
 
 <body>
@@ -113,8 +111,7 @@
                        id="contactNumber"
                        name="contactNumber"
                        placeholder="Example: 0771234567"
-                       maxlength="15"
-                       pattern="[0-9+\-\s]{9,15}"
+                       pattern="[0-9]{10}"
                        title="Enter a valid contact number"
                        required>
 
@@ -125,25 +122,17 @@
 
                 <button type="submit"
                         class="btn btn-primary">
-
                     Register Patient
-
                 </button>
-
 
                 <a href="patients"
                    class="btn btn-secondary">
-
                     View Patients
-
                 </a>
-
 
                 <a href="dashboard"
                    class="btn btn-secondary">
-
                     Back to Dashboard
-
                 </a>
 
             </div>
