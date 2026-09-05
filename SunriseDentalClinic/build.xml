@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="SunriseDentalClinic" default="war" basedir=".">
+
+    <!-- ========================================================= -->
+    <!-- Project Properties                                      -->
+    <!-- ========================================================= -->
+
+    <property environment="env"/>
+
+    <property name="src.dir" value="src/main/java"/>
+    <property name="test.src.dir" value="src/test/java"/>
+    <property name="web.dir" value="src/main/webapp"/>
+
+    <property name="build.dir" value="build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="test.classes.dir" value="${build.dir}/test-classes"/>
+
+    <property name="dist.dir" value="dist"/>
+    <property name="war.name" value="SunriseDentalClinic.war"/>
+
+    <!-- Tomcat installation directory -->
+    <property name="tomcat.home" value="${env.TOMCAT_HOME}"/>
+
+
+    <!-- ========================================================= -->
+    <!-- Classpaths                                               -->
+    <!-- ========================================================= -->
+
+    <path id="main.classpath">
+
+        <!-- Tomcat Servlet API -->
+        <fileset dir="${tomcat.home}/lib">
+            <include name="servlet-api.jar"/>
+        </fileset>
+
+        <!-- Application libraries such as MySQL Connector/J -->
+        <fileset dir="${web.dir}/WEB-INF/lib">
+            <include name="*.jar"/>
+        </fileset>
+
+    </path>
+
+
+    <path id="test.classpath">
+
+        <pathelement location="${classes.dir}"/>
+
+        <path refid="main.classpath"/>
+
+    </path>
+
+
+    <!-- ========================================================= -->
+    <!-- Clean                                                    -->
+    <!-- ========================================================= -->
+
+    <target name="clean">
+
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
+
+        <echo message="Build and distribution folders cleaned."/>
+
+    </target>
+
+
+    <!-- ========================================================= -->
+    <!-- Prepare Build Folders                                    -->
+    <!-- ========================================================= -->
+
+    <target name="prepare">
+
+        <mkdir dir="${classes.dir}"/>
+        <mkdir dir="${test.classes.dir}"/>
+        <mkdir dir="${dist.dir}"/>
+
+    </target>
+
+
+    <!-- ========================================================= -->
+    <!-- Compile Main Java Source                                 -->
+    <!-- ========================================================= -->
+
+    <target name="compile" depends="prepare">
+
+        <echo message="Compiling Sunrise Dental Clinic source code..."/>
+
+        <javac
+            srcdir="${src.dir}"
+            destdir="${classes.dir}"
+            source="21"
+            target="21"
+            encoding="UTF-8"
+            includeantruntime="false">
+
+            <classpath refid="main.classpath"/>
+
+        </javac>
+
+        <echo message="Main source compilation completed."/>
+
+    </target>
+
+
+    <!-- ========================================================= -->
+    <!-- Compile Automated Tests                                  -->
+    <!-- ========================================================= -->
+
+    <target name="compile-tests" depends="compile">
+
+        <echo message="Compiling automated tests..."/>
+
+        <javac
+            srcdir="${test.src.dir}"
+            destdir="${test.classes.dir}"
+            source="21"
+            target="21"
+            encoding="UTF-8"
+            includeantruntime="false">
+
+            <classpath refid="test.classpath"/>
+
+        </javac>
+
+        <echo message="Test compilation completed."/>
+
+    </target>
+
+
+    <!-- ========================================================= -->
+    <!-- Run Automated Tests                                      -->
+    <!-- ========================================================= -->
+
+    <target name="test" depends="compile-tests">
+
+        <echo message="Running automated tests..."/>
+
+        <java
+            classname="com.sunrise.test.AllTests"
+            fork="true"
+            failonerror="true">
+
+            <classpath>
+                <pathelement location="${test.classes.dir}"/>
+                <pathelement location="${classes.dir}"/>
+                <path refid="main.classpath"/>
+            </classpath>
+
+        </java>
+
+    </target>
+
+
+    <!-- ========================================================= -->
+    <!-- Create WAR File                                          -->
+    <!-- ========================================================= -->
+
+    <target name="war" depends="compile">
+
+        <echo message="Creating SunriseDentalClinic WAR file..."/>
+
+        <war
+            destfile="${dist.dir}/${war.name}"
+            webxml="${web.dir}/WEB-INF/web.xml"
+            needxmlfile="false">
+
+            <fileset dir="${web.dir}"/>
+
+            <classes dir="${classes.dir}"/>
+
+        </war>
+
+        <echo message="WAR created at: ${dist.dir}/${war.name}"/>
+
+    </target>
+
+
+    <!-- ========================================================= -->
+    <!-- Full Build                                               -->
+    <!-- ========================================================= -->
+
+    <target name="build" depends="clean,test,war">
+
+        <echo message="=============================================="/>
+        <echo message=" Sunrise Dental Clinic build completed"/>
+        <echo message="=============================================="/>
+
+    </target>
+
+</project>
