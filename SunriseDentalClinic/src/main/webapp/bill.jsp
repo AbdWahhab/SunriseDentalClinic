@@ -140,10 +140,14 @@
                 </label>
 
                 <input type="text"
-                       id="appointmentNumber"
-                       name="appointmentNumber"
-                       placeholder="Enter appointment number"
-                       required>
+       id="appointmentNumber"
+       name="appointmentNumber"
+       placeholder="Enter appointment number"
+       value="<%= request.getParameter("appointmentNumber") != null
+               ? request.getParameter("appointmentNumber")
+               : "" %>"
+       maxlength="30"
+       required>
 
             </div>
 

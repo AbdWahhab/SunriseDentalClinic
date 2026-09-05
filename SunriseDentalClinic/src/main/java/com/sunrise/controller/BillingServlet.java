@@ -19,6 +19,7 @@ public class BillingServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
 
+    @Override
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response)
             throws ServletException, IOException {
@@ -37,11 +38,29 @@ public class BillingServlet extends HttpServlet {
                 request.getParameter("appointmentNumber");
 
 
-        if (appointmentNumber != null &&
-                !appointmentNumber.trim().isEmpty()) {
+        if (appointmentNumber != null) {
+
+            appointmentNumber =
+                    appointmentNumber.trim();
+
+
+            if (appointmentNumber.isEmpty()) {
+
+                request.setAttribute(
+                        "errorMessage",
+                        "Appointment number is required."
+                );
+
+                request.getRequestDispatcher("bill.jsp")
+                       .forward(request, response);
+
+                return;
+            }
+
 
             BillingService billingService =
                     new BillingService();
+
 
             AppointmentDetails appointment =
                     billingService.getAppointment(
@@ -71,6 +90,7 @@ public class BillingServlet extends HttpServlet {
     }
 
 
+    @Override
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response)
             throws ServletException, IOException {
@@ -87,6 +107,25 @@ public class BillingServlet extends HttpServlet {
 
         String appointmentNumber =
                 request.getParameter("appointmentNumber");
+
+
+        if (appointmentNumber == null ||
+                appointmentNumber.trim().isEmpty()) {
+
+            request.setAttribute(
+                    "errorMessage",
+                    "Appointment number is required."
+            );
+
+            request.getRequestDispatcher("bill.jsp")
+                   .forward(request, response);
+
+            return;
+        }
+
+
+        appointmentNumber =
+                appointmentNumber.trim();
 
 
         BillingService billingService =
