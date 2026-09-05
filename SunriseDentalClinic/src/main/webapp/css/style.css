@@ -1,0 +1,299 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f7fb;
+    color: #1f2937;
+}
+
+.page-container {
+    width: 92%;
+    max-width: 1200px;
+    margin: 35px auto;
+}
+
+.page-header {
+    margin-bottom: 25px;
+}
+
+.page-header h1 {
+    margin: 0 0 8px;
+    color: #16324f;
+}
+
+.page-header p {
+    margin: 0;
+    color: #6b7280;
+}
+
+/* CARDS */
+
+.card {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 22px;
+    margin-bottom: 20px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.stat-card h3 {
+    margin: 0 0 10px;
+    font-size: 15px;
+    color: #6b7280;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: bold;
+    color: #16324f;
+}
+
+/* FORMS */
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: bold;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 14px;
+    background: white;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.12);
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* BUTTONS */
+
+.btn {
+    display: inline-block;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 16px;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-primary {
+    background: #2563eb;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+}
+
+.btn-secondary {
+    background: #e5e7eb;
+    color: #1f2937;
+}
+
+.btn-secondary:hover {
+    background: #d1d5db;
+}
+
+.btn-success {
+    background: #16a34a;
+    color: white;
+}
+
+.btn-danger {
+    background: #dc2626;
+    color: white;
+}
+
+.btn-warning {
+    background: #d97706;
+    color: white;
+}
+
+/* TABLES */
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th,
+td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: left;
+}
+
+th {
+    background: #eef3f8;
+    color: #16324f;
+}
+
+tr:hover {
+    background: #f8fafc;
+}
+
+/* ALERTS */
+
+.alert {
+    padding: 12px 15px;
+    border-radius: 6px;
+    margin-bottom: 18px;
+}
+
+.alert-success {
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+.alert-error {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+/* NAVIGATION */
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 18px;
+}
+
+.menu-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.menu-card h3 {
+    margin-top: 0;
+    color: #16324f;
+}
+
+.menu-card a {
+    display: block;
+    margin-top: 10px;
+}
+
+/* LOGIN */
+
+.login-container {
+    max-width: 430px;
+    margin: 80px auto;
+}
+
+.login-title {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.login-title h1 {
+    color: #16324f;
+}
+
+/* UTILITY */
+
+.text-muted {
+    color: #6b7280;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* PRINT */
+
+@media print {
+
+    .no-print {
+        display: none !important;
+    }
+
+    body {
+        background: white;
+    }
+
+    .card,
+    .stat-card {
+        box-shadow: none;
+    }
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .page-container {
+        width: 95%;
+        margin: 20px auto;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+}
