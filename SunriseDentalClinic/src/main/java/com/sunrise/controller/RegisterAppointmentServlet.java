@@ -3,6 +3,7 @@ package com.sunrise.controller;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 
 import com.sunrise.service.AppointmentService;
 
@@ -18,6 +19,7 @@ public class RegisterAppointmentServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
+    @Override
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response)
             throws ServletException, IOException {
@@ -31,32 +33,163 @@ public class RegisterAppointmentServlet extends HttpServlet {
             return;
         }
 
+        String patientIdText =
+                request.getParameter("patientId");
+
+        String dentistIdText =
+                request.getParameter("dentistId");
+
+        String treatmentIdText =
+                request.getParameter("treatmentId");
+
+        String appointmentDateText =
+                request.getParameter("appointmentDate");
+
+        String appointmentTimeText =
+                request.getParameter("appointmentTime");
+
+
+        if (patientIdText == null ||
+                patientIdText.isBlank()) {
+
+            request.setAttribute(
+                    "errorMessage",
+                    "Please select a valid patient."
+            );
+
+            forwardToForm(request, response);
+            return;
+        }
+
+
+        if (dentistIdText == null ||
+                dentistIdText.isBlank()) {
+
+            request.setAttribute(
+                    "errorMessage",
+                    "Please select a dentist."
+            );
+
+            forwardToForm(request, response);
+            return;
+        }
+
+
+        if (treatmentIdText == null ||
+                treatmentIdText.isBlank()) {
+
+            request.setAttribute(
+                    "errorMessage",
+                    "Please select a treatment."
+            );
+
+            forwardToForm(request, response);
+            return;
+        }
+
+
+        if (appointmentDateText == null ||
+                appointmentDateText.isBlank()) {
+
+            request.setAttribute(
+                    "errorMessage",
+                    "Appointment date is required."
+            );
+
+            forwardToForm(request, response);
+            return;
+        }
+
+
+        if (appointmentTimeText == null ||
+                appointmentTimeText.isBlank()) {
+
+            request.setAttribute(
+                    "errorMessage",
+                    "Appointment time is required."
+            );
+
+            forwardToForm(request, response);
+            return;
+        }
+
+
         try {
 
             int patientId =
-                    Integer.parseInt(
-                            request.getParameter("patientId")
-                    );
+                    Integer.parseInt(patientIdText);
 
             int dentistId =
-                    Integer.parseInt(
-                            request.getParameter("dentistId")
-                    );
+                    Integer.parseInt(dentistIdText);
 
             int treatmentId =
-                    Integer.parseInt(
-                            request.getParameter("treatmentId")
+                    Integer.parseInt(treatmentIdText);
+
+
+            if (patientId <= 0) {
+
+                request.setAttribute(
+                        "errorMessage",
+                        "Please select a valid patient."
+                );
+
+                forwardToForm(request, response);
+                return;
+            }
+
+
+            if (dentistId <= 0) {
+
+                request.setAttribute(
+                        "errorMessage",
+                        "Please select a valid dentist."
+                );
+
+                forwardToForm(request, response);
+                return;
+            }
+
+
+            if (treatmentId <= 0) {
+
+                request.setAttribute(
+                        "errorMessage",
+                        "Please select a valid treatment."
+                );
+
+                forwardToForm(request, response);
+                return;
+            }
+
+
+            LocalDate selectedDate =
+                    LocalDate.parse(
+                            appointmentDateText
                     );
 
+            LocalDate today =
+                    LocalDate.now();
+
+
+            if (selectedDate.isBefore(today)) {
+
+                request.setAttribute(
+                        "errorMessage",
+                        "Appointment date cannot be in the past."
+                );
+
+                forwardToForm(request, response);
+                return;
+            }
+
+
             Date appointmentDate =
-                    Date.valueOf(
-                            request.getParameter("appointmentDate")
-                    );
+                    Date.valueOf(selectedDate);
+
 
             Time appointmentTime =
                     Time.valueOf(
-                            request.getParameter("appointmentTime")
-                            + ":00"
+                            appointmentTimeText + ":00"
                     );
 
 
@@ -93,6 +226,20 @@ public class RegisterAppointmentServlet extends HttpServlet {
             }
 
 
+        } catch (NumberFormatException e) {
+
+            request.setAttribute(
+                    "errorMessage",
+                    "Invalid patient, dentist, or treatment selection."
+            );
+
+        } catch (IllegalArgumentException e) {
+
+            request.setAttribute(
+                    "errorMessage",
+                    "Invalid appointment date or time."
+            );
+
         } catch (Exception e) {
 
             e.printStackTrace();
@@ -100,10 +247,19 @@ public class RegisterAppointmentServlet extends HttpServlet {
             request.setAttribute(
                     "errorMessage",
                     "Unable to register appointment. "
-                    + "Please check the entered details."
+                    + "Please try again."
             );
         }
 
+
+        forwardToForm(request, response);
+    }
+
+
+    private void forwardToForm(
+            HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
 
         request.getRequestDispatcher(
                 "registerAppointment.jsp"
